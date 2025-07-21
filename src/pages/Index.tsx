@@ -1,5 +1,5 @@
 import { DashboardStats } from "@/components/DashboardStats";
-import { ClientOverview } from "@/components/ClientOverview";
+import { ClientManagement } from "@/components/ClientManagement";
 import { RecentActivity } from "@/components/RecentActivity";
 import { RevenueChart } from "@/components/RevenueChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -40,15 +40,11 @@ const Index = () => {
         {/* Revenue Charts */}
         <RevenueChart />
 
-        {/* Client Overview and Recent Activity */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="lg:col-span-1">
-            <ClientOverview />
-          </div>
-          <div className="lg:col-span-1">
-            <RecentActivity />
-          </div>
-        </div>
+        {/* Client Management */}
+        <ClientManagement />
+
+        {/* Recent Activity */}
+        <RecentActivity />
 
         {/* Quick Actions */}
         <Card className="bg-gradient-to-br from-card to-secondary/20 border-border/50">
