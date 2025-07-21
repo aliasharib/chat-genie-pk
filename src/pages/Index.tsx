@@ -8,16 +8,16 @@ import { MessageSquare, Bot, Instagram, Settings } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
+    <div className="p-4 md:p-6 lg:p-8">
       {/* Header */}
       <div className="mb-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-info bg-clip-text text-transparent">
-              ChatBot Business Dashboard
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Chat Genie Analytics Overview
             </h1>
             <p className="text-muted-foreground mt-1">
-              Pakistani Instagram Automation Platform
+              AI-Powered Conversation Management Platform
             </p>
           </div>
           <div className="flex items-center space-x-3">
