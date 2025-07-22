@@ -187,7 +187,7 @@ const ClientCard = ({ client, onDelete }: { client: Client; onDelete: (id: strin
           )}
         </div>
         
-        {client.communicationHistory.length > 0 && (
+        {client.communicationHistory && client.communicationHistory.length > 0 && (
           <div className="pt-2 border-t border-border/50">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium text-muted-foreground">Recent Communication</span>
