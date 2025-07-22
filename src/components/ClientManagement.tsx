@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Clock, Star, Trash2, Plus, Search, User, Building, Mail, Phone, FileText } from "lucide-react";
+import { Clock, Star, Trash2, Plus, Search, User, Building, Mail, Phone, FileText, CreditCard, Calendar, MessageCircle, Edit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Client {
@@ -18,11 +19,19 @@ interface Client {
   phone: string;
   company: string;
   notes: string;
-  subscription: 'Premium' | 'Standard' | 'Basic';
-  status: 'Active' | 'Inactive' | 'Trial';
+  subscription: 'Basic' | 'Pro' | 'Enterprise' | 'Custom';
+  status: 'Active' | 'Inactive' | 'Pending';
   revenue: string;
   messages: number;
   joinDate: string;
+  billingCycle: 'Monthly' | 'Quarterly' | 'Yearly';
+  nextBilling: string;
+  lastActivity: string;
+  communicationHistory: Array<{
+    date: string;
+    type: 'Email' | 'Phone' | 'Meeting' | 'Support';
+    note: string;
+  }>;
 }
 
 interface FormData {
@@ -31,6 +40,8 @@ interface FormData {
   phone: string;
   company: string;
   notes: string;
+  subscription: 'Basic' | 'Pro' | 'Enterprise' | 'Custom';
+  billingCycle: 'Monthly' | 'Quarterly' | 'Yearly';
 }
 
 const initialFormData: FormData = {
@@ -38,15 +49,18 @@ const initialFormData: FormData = {
   email: '',
   phone: '',
   company: '',
-  notes: ''
+  notes: '',
+  subscription: 'Basic',
+  billingCycle: 'Monthly'
 };
 
 const ClientCard = ({ client, onDelete }: { client: Client; onDelete: (id: string) => void }) => {
   const getSubscriptionColor = (subscription: string) => {
     switch (subscription) {
-      case 'Premium': return 'bg-gradient-to-r from-primary to-info text-primary-foreground';
-      case 'Standard': return 'bg-gradient-to-r from-success to-success/80 text-success-foreground';
+      case 'Enterprise': return 'bg-gradient-to-r from-primary to-info text-primary-foreground';
+      case 'Pro': return 'bg-gradient-to-r from-success to-success/80 text-success-foreground';
       case 'Basic': return 'bg-gradient-to-r from-warning to-warning/80 text-warning-foreground';
+      case 'Custom': return 'bg-gradient-to-r from-purple-500 to-purple/80 text-white';
       default: return 'bg-muted text-muted-foreground';
     }
   };
@@ -55,7 +69,7 @@ const ClientCard = ({ client, onDelete }: { client: Client; onDelete: (id: strin
     switch (status) {
       case 'Active': return 'text-success';
       case 'Inactive': return 'text-destructive';
-      case 'Trial': return 'text-warning';
+      case 'Pending': return 'text-warning';
       default: return 'text-muted-foreground';
     }
   };
@@ -111,7 +125,7 @@ const ClientCard = ({ client, onDelete }: { client: Client; onDelete: (id: strin
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Status</span>
           <div className="flex items-center space-x-1">
-            <div className={`h-2 w-2 rounded-full ${client.status === 'Active' ? 'bg-success' : client.status === 'Trial' ? 'bg-warning' : 'bg-destructive'}`} />
+            <div className={`h-2 w-2 rounded-full ${client.status === 'Active' ? 'bg-success' : client.status === 'Pending' ? 'bg-warning' : 'bg-destructive'}`} />
             <span className={`text-sm font-medium ${getStatusColor(client.status)}`}>
               {client.status}
             </span>
@@ -124,13 +138,37 @@ const ClientCard = ({ client, onDelete }: { client: Client; onDelete: (id: strin
         </div>
         
         <div className="flex items-center justify-between">
+          <span className="text-sm text-muted-foreground">Billing Cycle</span>
+          <div className="flex items-center space-x-1">
+            <CreditCard className="h-3 w-3 text-muted-foreground" />
+            <span className="text-sm font-medium">{client.billingCycle}</span>
+          </div>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-muted-foreground">Next Billing</span>
+          <div className="flex items-center space-x-1">
+            <Calendar className="h-3 w-3 text-muted-foreground" />
+            <span className="text-sm font-medium">{client.nextBilling}</span>
+          </div>
+        </div>
+        
+        <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Revenue</span>
           <span className="text-sm font-semibold text-success">{client.revenue}</span>
         </div>
         
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Messages</span>
-          <span className="text-sm font-medium">{client.messages.toLocaleString()}</span>
+          <div className="flex items-center space-x-1">
+            <MessageCircle className="h-3 w-3 text-muted-foreground" />
+            <span className="text-sm font-medium">{client.messages.toLocaleString()}</span>
+          </div>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-muted-foreground">Last Activity</span>
+          <span className="text-sm font-medium">{client.lastActivity}</span>
         </div>
 
         {client.notes && (
@@ -144,10 +182,28 @@ const ClientCard = ({ client, onDelete }: { client: Client; onDelete: (id: strin
             <Clock className="h-3 w-3" />
             <span className="text-xs">Joined {client.joinDate}</span>
           </div>
-          {client.subscription === 'Premium' && (
+          {client.subscription === 'Enterprise' && (
             <Star className="h-4 w-4 text-warning fill-warning" />
           )}
         </div>
+        
+        {client.communicationHistory.length > 0 && (
+          <div className="pt-2 border-t border-border/50">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-medium text-muted-foreground">Recent Communication</span>
+              <Button variant="ghost" size="icon" className="h-6 w-6">
+                <Edit className="h-3 w-3" />
+              </Button>
+            </div>
+            <div className="space-y-1">
+              {client.communicationHistory.slice(0, 2).map((comm, index) => (
+                <div key={index} className="text-xs text-muted-foreground">
+                  <span className="font-medium">{comm.type}</span> - {comm.date}: {comm.note}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -165,12 +221,19 @@ export const ClientManagement = () => {
       email: 'ahmed@fashionstore.pk',
       phone: '+92 300 1234567',
       company: 'Ahmed Fashion Store',
-      notes: 'Premium client, high engagement rates',
-      subscription: 'Premium',
+      notes: 'Enterprise client, high engagement rates',
+      subscription: 'Enterprise',
       status: 'Active',
       revenue: 'Rs 45,200',
       messages: 12847,
-      joinDate: 'Jan 2024'
+      joinDate: 'Jan 2024',
+      billingCycle: 'Yearly',
+      nextBilling: 'Jan 15, 2025',
+      lastActivity: '2 hours ago',
+      communicationHistory: [
+        { date: '2024-03-15', type: 'Email', note: 'Quarterly review sent' },
+        { date: '2024-03-10', type: 'Phone', note: 'Discussed feature upgrades' }
+      ]
     },
     {
       id: '2',
@@ -179,11 +242,17 @@ export const ClientManagement = () => {
       phone: '+92 321 9876543',
       company: 'Karachi Sweets',
       notes: 'Seasonal business, peaks during festivals',
-      subscription: 'Standard',
+      subscription: 'Pro',
       status: 'Active',
       revenue: 'Rs 28,900',
       messages: 8943,
-      joinDate: 'Feb 2024'
+      joinDate: 'Feb 2024',
+      billingCycle: 'Monthly',
+      nextBilling: 'Mar 21, 2024',
+      lastActivity: '1 day ago',
+      communicationHistory: [
+        { date: '2024-03-12', type: 'Support', note: 'Help with festival campaign setup' }
+      ]
     },
     {
       id: '3',
@@ -192,11 +261,18 @@ export const ClientManagement = () => {
       phone: '+92 333 5566778',
       company: 'Tech Solutions PK',
       notes: 'B2B client, requires technical support',
-      subscription: 'Premium',
+      subscription: 'Custom',
       status: 'Active',
       revenue: 'Rs 67,800',
       messages: 15629,
-      joinDate: 'Dec 2023'
+      joinDate: 'Dec 2023',
+      billingCycle: 'Quarterly',
+      nextBilling: 'Apr 1, 2024',
+      lastActivity: '5 hours ago',
+      communicationHistory: [
+        { date: '2024-03-14', type: 'Meeting', note: 'Custom integration discussion' },
+        { date: '2024-03-08', type: 'Email', note: 'API documentation sent' }
+      ]
     },
     {
       id: '4',
@@ -204,12 +280,18 @@ export const ClientManagement = () => {
       email: 'aisha@beautypalace.pk',
       phone: '+92 301 4455667',
       company: 'Beauty Palace',
-      notes: 'New client, trial period active',
+      notes: 'New client, onboarding in progress',
       subscription: 'Basic',
-      status: 'Trial',
+      status: 'Pending',
       revenue: 'Rs 12,400',
       messages: 3287,
-      joinDate: 'Mar 2024'
+      joinDate: 'Mar 2024',
+      billingCycle: 'Monthly',
+      nextBilling: 'Apr 5, 2024',
+      lastActivity: '3 days ago',
+      communicationHistory: [
+        { date: '2024-03-16', type: 'Email', note: 'Onboarding checklist sent' }
+      ]
     },
     {
       id: '5',
@@ -218,11 +300,17 @@ export const ClientManagement = () => {
       phone: '+92 345 7788990',
       company: 'Sports Corner',
       notes: 'Good conversion rates, loyal customers',
-      subscription: 'Standard',
+      subscription: 'Pro',
       status: 'Active',
       revenue: 'Rs 34,600',
       messages: 7892,
-      joinDate: 'Jan 2024'
+      joinDate: 'Jan 2024',
+      billingCycle: 'Quarterly',
+      nextBilling: 'Apr 15, 2024',
+      lastActivity: '6 hours ago',
+      communicationHistory: [
+        { date: '2024-03-11', type: 'Phone', note: 'Discussed seasonal promotions' }
+      ]
     },
     {
       id: '6',
@@ -235,7 +323,14 @@ export const ClientManagement = () => {
       status: 'Inactive',
       revenue: 'Rs 8,900',
       messages: 1234,
-      joinDate: 'Feb 2024'
+      joinDate: 'Feb 2024',
+      billingCycle: 'Monthly',
+      nextBilling: 'Payment Overdue',
+      lastActivity: '2 weeks ago',
+      communicationHistory: [
+        { date: '2024-03-05', type: 'Email', note: 'Payment reminder sent' },
+        { date: '2024-02-28', type: 'Support', note: 'Account suspension notice' }
+      ]
     }
   ]);
 
@@ -245,7 +340,7 @@ export const ClientManagement = () => {
     client.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleInputChange = (field: keyof FormData, value: string) => {
+  const handleInputChange = (field: keyof FormData, value: string | 'Basic' | 'Pro' | 'Enterprise' | 'Custom' | 'Monthly' | 'Quarterly' | 'Yearly') => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -277,6 +372,16 @@ export const ClientManagement = () => {
   const handleAddClient = () => {
     if (!validateForm()) return;
 
+    const getNextBillingDate = (cycle: 'Monthly' | 'Quarterly' | 'Yearly') => {
+      const date = new Date();
+      switch (cycle) {
+        case 'Monthly': date.setMonth(date.getMonth() + 1); break;
+        case 'Quarterly': date.setMonth(date.getMonth() + 3); break;
+        case 'Yearly': date.setFullYear(date.getFullYear() + 1); break;
+      }
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    };
+
     const newClient: Client = {
       id: Date.now().toString(),
       name: formData.name,
@@ -284,11 +389,19 @@ export const ClientManagement = () => {
       phone: formData.phone,
       company: formData.company,
       notes: formData.notes,
-      subscription: 'Basic',
-      status: 'Trial',
+      subscription: formData.subscription,
+      status: 'Pending',
       revenue: 'Rs 0',
       messages: 0,
-      joinDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+      joinDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+      billingCycle: formData.billingCycle,
+      nextBilling: getNextBillingDate(formData.billingCycle),
+      lastActivity: 'Just now',
+      communicationHistory: [{
+        date: new Date().toLocaleDateString(),
+        type: 'Email',
+        note: 'Welcome email sent'
+      }]
     };
 
     setClients(prev => [newClient, ...prev]);
@@ -325,7 +438,7 @@ export const ClientManagement = () => {
             {clients.filter(c => c.status === 'Active').length} Active
           </Badge>
           <Badge variant="outline" className="border-warning/50 text-warning">
-            {clients.filter(c => c.status === 'Trial').length} Trial
+            {clients.filter(c => c.status === 'Pending').length} Pending
           </Badge>
           <Badge variant="outline" className="border-destructive/50 text-destructive">
             {clients.filter(c => c.status === 'Inactive').length} Inactive
@@ -411,6 +524,37 @@ export const ClientManagement = () => {
                     onChange={(e) => handleInputChange('company', e.target.value)}
                     placeholder="Company name"
                   />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="subscription">Subscription Plan *</Label>
+                  <Select value={formData.subscription} onValueChange={(value: 'Basic' | 'Pro' | 'Enterprise' | 'Custom') => handleInputChange('subscription', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select subscription" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Basic">Basic - Rs 5,000/month</SelectItem>
+                      <SelectItem value="Pro">Pro - Rs 15,000/month</SelectItem>
+                      <SelectItem value="Enterprise">Enterprise - Rs 40,000/month</SelectItem>
+                      <SelectItem value="Custom">Custom - Contact us</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="billingCycle">Billing Cycle</Label>
+                  <Select value={formData.billingCycle} onValueChange={(value: 'Monthly' | 'Quarterly' | 'Yearly') => handleInputChange('billingCycle', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select billing cycle" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Monthly">Monthly</SelectItem>
+                      <SelectItem value="Quarterly">Quarterly (10% off)</SelectItem>
+                      <SelectItem value="Yearly">Yearly (20% off)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
