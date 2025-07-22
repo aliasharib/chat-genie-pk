@@ -47,12 +47,8 @@ const menuItems = [
   },
   {
     title: "Analytics",
-    icon: BarChart3,
-    subItems: [
-      { title: "Conversation Analytics", url: "/analytics/conversations" },
-      { title: "Performance Metrics", url: "/analytics/performance" },
-      { title: "Reports", url: "/analytics/reports" }
-    ]
+    url: "/analytics",
+    icon: BarChart3
   },
   {
     title: "Message Templates",
