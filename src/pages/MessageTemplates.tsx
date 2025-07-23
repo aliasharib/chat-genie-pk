@@ -223,7 +223,7 @@ export default function MessageTemplates() {
                   id="content"
                   value={newTemplate.content}
                   onChange={(e) => setNewTemplate({ ...newTemplate, content: e.target.value })}
-                  placeholder="Enter your message template. Use {{variable}} for dynamic content."
+                  placeholder="Enter your message template. Use {variable} for dynamic content."
                   rows={6}
                 />
                 <p className="text-xs text-muted-foreground mt-1">
