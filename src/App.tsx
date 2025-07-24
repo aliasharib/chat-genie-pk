@@ -9,6 +9,12 @@ import Index from "./pages/Index";
 import Analytics from "./pages/Analytics";
 import MessageTemplates from "./pages/MessageTemplates";
 import Compliance from "./pages/Compliance";
+import BillingPayments from "./pages/BillingPayments";
+import BillingInvoices from "./pages/BillingInvoices";
+import BillingRevenue from "./pages/BillingRevenue";
+import Users from "./pages/Users";
+import Support from "./pages/Support";
+import Integrations from "./pages/Integrations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +41,12 @@ const App = () => (
                   <Route path="/analytics" element={<Analytics />} />
                   <Route path="/templates" element={<MessageTemplates />} />
                   <Route path="/compliance" element={<Compliance />} />
+                  <Route path="/billing/payments" element={<BillingPayments />} />
+                  <Route path="/billing/invoices" element={<BillingInvoices />} />
+                  <Route path="/billing/revenue" element={<BillingRevenue />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/support" element={<Support />} />
+                  <Route path="/integrations" element={<Integrations />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
