@@ -4,9 +4,13 @@ import { RecentActivity } from "@/components/RecentActivity";
 import { RevenueChart } from "@/components/RevenueChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { MessageSquare, Bot, Instagram, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="p-4 md:p-6 lg:p-8">
       {/* Header */}
@@ -53,18 +57,27 @@ const Index = () => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-3 md:grid-cols-3">
-              <button className="flex items-center justify-center space-x-2 p-4 rounded-lg bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 transition-all duration-200">
+              <Button 
+                onClick={() => navigate('/message-templates')}
+                className="flex items-center justify-center space-x-2 p-4 h-auto bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 transition-all duration-200"
+              >
                 <MessageSquare className="h-5 w-5" />
                 <span className="font-medium">View Messages</span>
-              </button>
-              <button className="flex items-center justify-center space-x-2 p-4 rounded-lg bg-gradient-to-r from-success to-success/80 text-success-foreground hover:from-success/90 hover:to-success/70 transition-all duration-200">
+              </Button>
+              <Button 
+                onClick={() => navigate('/integrations')}
+                className="flex items-center justify-center space-x-2 p-4 h-auto bg-gradient-to-r from-success to-success/80 text-success-foreground hover:from-success/90 hover:to-success/70 transition-all duration-200"
+              >
                 <Bot className="h-5 w-5" />
                 <span className="font-medium">Manage Bots</span>
-              </button>
-              <button className="flex items-center justify-center space-x-2 p-4 rounded-lg bg-gradient-to-r from-warning to-warning/80 text-warning-foreground hover:from-warning/90 hover:to-warning/70 transition-all duration-200">
+              </Button>
+              <Button 
+                onClick={() => navigate('/compliance')}
+                className="flex items-center justify-center space-x-2 p-4 h-auto bg-gradient-to-r from-warning to-warning/80 text-warning-foreground hover:from-warning/90 hover:to-warning/70 transition-all duration-200"
+              >
                 <Settings className="h-5 w-5" />
                 <span className="font-medium">Settings</span>
-              </button>
+              </Button>
             </div>
           </CardContent>
         </Card>
