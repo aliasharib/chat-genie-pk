@@ -97,6 +97,14 @@ export function AppSidebar() {
   const isGroupActive = (subItems: any[]) => 
     subItems?.some((item) => isActive(item.url));
 
+  // Auto-expand groups that contain the current active route
+  const isGroupExpanded = (title: string, subItems?: any[]) => {
+    if (subItems && isGroupActive(subItems)) {
+      return true; // Always expand if contains active route
+    }
+    return openGroups.includes(title);
+  };
+
   const toggleGroup = (title: string) => {
     setOpenGroups(prev => 
       prev.includes(title) 
@@ -136,7 +144,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   {item.subItems ? (
                     <Collapsible
-                      open={openGroups.includes(item.title) || isGroupActive(item.subItems)}
+                      open={isGroupExpanded(item.title, item.subItems)}
                       onOpenChange={() => toggleGroup(item.title)}
                     >
                       <CollapsibleTrigger asChild>
@@ -146,7 +154,7 @@ export function AppSidebar() {
                             {!collapsed && <span>{item.title}</span>}
                           </div>
                           {!collapsed && (
-                            openGroups.includes(item.title) || isGroupActive(item.subItems) ? 
+                            isGroupExpanded(item.title, item.subItems) ? 
                             <ChevronDown className="h-4 w-4" /> : 
                             <ChevronRight className="h-4 w-4" />
                           )}
