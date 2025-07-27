@@ -5,8 +5,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Portfolio from "./pages/Portfolio";
 import Index from "./pages/Index";
-import Analytics from "./pages/Analytics";
 
 import Compliance from "./pages/Compliance";
 import BillingPayments from "./pages/BillingPayments";
@@ -38,7 +38,7 @@ const App = () => (
               <main className="flex-1 overflow-auto">
                 <Routes>
                   <Route path="/" element={<Index />} />
-                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/portfolio" element={<Portfolio />} />
                   <Route path="/compliance" element={<Compliance />} />
                   <Route path="/billing/payments" element={<BillingPayments />} />
                   <Route path="/billing/invoices" element={<BillingInvoices />} />

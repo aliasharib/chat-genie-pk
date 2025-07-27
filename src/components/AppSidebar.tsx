@@ -42,12 +42,12 @@ const menuItems = [
     subItems: [
       { title: "All Clients", url: "/clients" },
       { title: "Add Client", url: "/clients/add" },
-      { title: "Client Analytics", url: "/clients/analytics" }
+      { title: "Client Reports", url: "/clients/reports" }
     ]
   },
   {
-    title: "Analytics",
-    url: "/analytics",
+    title: "Portfolio",
+    url: "/portfolio",
     icon: BarChart3
   },
   {
@@ -61,7 +61,7 @@ const menuItems = [
     subItems: [
       { title: "Payment Status", url: "/billing/payments" },
       { title: "Invoices", url: "/billing/invoices" },
-      { title: "Revenue Analytics", url: "/billing/revenue" }
+      { title: "Revenue Reports", url: "/billing/revenue" }
     ]
   },
   {

@@ -30,7 +30,7 @@ const mockTemplates: Template[] = [
     id: "1",
     name: "Welcome New Client",
     category: "welcome",
-    content: "Hi {{clientName}}, welcome to Nuvora! We're excited to help you grow your business with our AI-powered chat solutions. Your account is now active and ready to use.",
+    content: "Hi {{clientName}}, welcome to Nuvora! We're excited to help you grow your business with our professional web solutions. Your project is now ready to begin.",
     variables: ["clientName"],
     usageCount: 156,
     successRate: 94.2,

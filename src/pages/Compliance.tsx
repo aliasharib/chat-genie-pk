@@ -702,7 +702,7 @@ export default function Compliance() {
               <div className="bg-muted/50 p-4 rounded-lg">
                 <h4 className="font-medium mb-2">📋 Recent DPIA Activities</h4>
                 <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• AI chatbot implementation assessment completed (Jan 15, 2024)</li>
+                  <li>• Website security assessment completed (Jan 15, 2024)</li>
                   <li>• Third-party integration review in progress (Due: Jan 25, 2024)</li>
                   <li>• Annual privacy risk assessment scheduled (Feb 1, 2024)</li>
                   <li>• Data retention policy update assessment pending</li>
