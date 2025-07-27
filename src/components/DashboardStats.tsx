@@ -38,31 +38,31 @@ const StatCard = ({ title, value, change, icon, trend }: StatCardProps) => {
 export const DashboardStats = () => {
   const stats = [
     {
-      title: "Active Clients",
-      value: "1,247",
-      change: "+12.3%",
-      icon: <Users className="h-4 w-4" />,
-      trend: 'up' as const,
-    },
-    {
       title: "Monthly Revenue",
-      value: "Rs 2,84,500",
-      change: "+8.7%",
+      value: "$12,400",
+      change: "+18.5%",
       icon: <DollarSign className="h-4 w-4" />,
       trend: 'up' as const,
     },
     {
-      title: "Messages Processed",
-      value: "98,247",
-      change: "+15.2%",
-      icon: <MessageSquare className="h-4 w-4" />,
+      title: "Clients This Month",
+      value: "24",
+      change: "+3",
+      icon: <Users className="h-4 w-4" />,
       trend: 'up' as const,
     },
     {
-      title: "Conversion Rate",
-      value: "24.8%",
-      change: "+2.1%",
+      title: "Lead Conversion Rate",
+      value: "32%",
+      change: "+5.2%",
       icon: <TrendingUp className="h-4 w-4" />,
+      trend: 'up' as const,
+    },
+    {
+      title: "Avg Delivery Time",
+      value: "3.2 days",
+      change: "-0.8 days",
+      icon: <MessageSquare className="h-4 w-4" />,
       trend: 'up' as const,
     },
   ];
