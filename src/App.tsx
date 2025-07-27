@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Analytics from "./pages/Analytics";
-import MessageTemplates from "./pages/MessageTemplates";
+
 import Compliance from "./pages/Compliance";
 import BillingPayments from "./pages/BillingPayments";
 import BillingInvoices from "./pages/BillingInvoices";
@@ -32,15 +32,13 @@ const App = () => (
               <header className="h-14 flex items-center border-b px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <SidebarTrigger />
                 <div className="flex items-center space-x-3 ml-4">
-                  <h1 className="text-lg font-semibold">Chat Genie Dashboard</h1>
+                  <h1 className="text-lg font-semibold">Nuvora Dashboard</h1>
                 </div>
               </header>
               <main className="flex-1 overflow-auto">
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/analytics" element={<Analytics />} />
-                  <Route path="/templates" element={<MessageTemplates />} />
-                  <Route path="/message-templates" element={<MessageTemplates />} />
                   <Route path="/compliance" element={<Compliance />} />
                   <Route path="/billing/payments" element={<BillingPayments />} />
                   <Route path="/billing/invoices" element={<BillingInvoices />} />

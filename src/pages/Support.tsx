@@ -249,7 +249,7 @@ const Support = () => {
                   <Mail className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">Email Support</p>
-                    <p className="text-sm text-muted-foreground">support@chatgenie.com</p>
+                    <p className="text-sm text-muted-foreground">support@nuvora.com</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">

@@ -107,7 +107,7 @@ const auditLogs: AuditLog[] = [
   {
     id: "1",
     timestamp: "2024-01-20T11:30:00Z",
-    user: "admin@chatgenie.com",
+    user: "admin@nuvora.com",
     action: "User Access Granted",
     resource: "Client Data Export",
     details: "Granted access to client data export for user john.doe@company.com",
@@ -137,7 +137,7 @@ const auditLogs: AuditLog[] = [
   {
     id: "4",
     timestamp: "2024-01-20T10:30:00Z",
-    user: "compliance@chatgenie.com",
+    user: "compliance@nuvora.com",
     action: "Policy Update",
     resource: "Privacy Policy",
     details: "Updated privacy policy to include new data processing activities",
@@ -147,7 +147,7 @@ const auditLogs: AuditLog[] = [
   {
     id: "5",
     timestamp: "2024-01-20T09:20:00Z",
-    user: "security@chatgenie.com",
+    user: "security@nuvora.com",
     action: "Security Scan",
     resource: "System Infrastructure",
     details: "Completed automated security vulnerability scan",

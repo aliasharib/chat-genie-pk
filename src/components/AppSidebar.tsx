@@ -51,11 +51,6 @@ const menuItems = [
     icon: BarChart3
   },
   {
-    title: "Message Templates",
-    url: "/templates",
-    icon: MessageSquare
-  },
-  {
     title: "Compliance & Monitoring",
     url: "/compliance",
     icon: Shield
@@ -128,7 +123,7 @@ export function AppSidebar() {
           {!collapsed && (
             <div>
               <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Chat Genie
+                Nuvora
               </h1>
               <p className="text-xs text-muted-foreground">Dashboard</p>
             </div>
@@ -198,7 +193,7 @@ export function AppSidebar() {
       <SidebarFooter className="p-4 border-t">
         {!collapsed && (
           <div className="text-xs text-muted-foreground">
-            Chat Genie v2.0
+            Nuvora v2.0
           </div>
         )}
       </SidebarFooter>
